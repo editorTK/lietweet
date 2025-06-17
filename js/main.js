@@ -1,16 +1,35 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!puter.auth.isSignedIn()) {
+        await puter.auth.signIn();
+    }
     const formContainer = document.getElementById('form-container');
     const tweetForm = document.getElementById('tweet-form');
     const tweetCard = document.getElementById('tweet-card');
     const imageUpload = document.getElementById('optional-image-upload');
+    const profileImageUpload = document.getElementById('profile-image-upload');
     const backToFormBtn = document.getElementById('back-to-form-btn');
     const tweetStyleSelect = document.getElementById('tweet-style');
     const realisticOptionsDiv = document.getElementById('realistic-options');
     const themeSelector = document.getElementById('theme-selector');
 
     let optionalImageHTML = '';
+    let profileImageURL = '';
+    const displayNameInput = document.getElementById('display-name');
 
-    // Manejar la carga de imágenes
+    if (puter && puter.auth.isSignedIn()) {
+        try {
+            const storedPic = await puter.kv.get('profilePic');
+            if (storedPic) {
+                profileImageURL = storedPic;
+            }
+            const storedName = await puter.kv.get('displayName');
+            if (storedName) {
+                displayNameInput.value = storedName;
+            }
+        } catch (e) {}
+    }
+
+    // Manejar la carga de imágenes del tweet
     imageUpload.addEventListener('change', function() {
         if (this.files && this.files[0]) {
             const reader = new FileReader();
@@ -20,6 +39,21 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsDataURL(this.files[0]);
         } else {
             optionalImageHTML = '';
+        }
+    });
+
+    // Subir la foto de perfil a Puter
+    profileImageUpload.addEventListener('change', async function() {
+        if (this.files && this.files[0]) {
+            if (!puter.auth.isSignedIn()) {
+                await puter.auth.signIn();
+            }
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                profileImageURL = e.target.result;
+                await puter.kv.set('profilePic', profileImageURL);
+            };
+            reader.readAsDataURL(this.files[0]);
         }
     });
 
@@ -49,10 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return num;
     }
 
-    tweetForm.addEventListener('submit', function(event) {
+    tweetForm.addEventListener('submit', async function(event) {
         event.preventDefault();
 
         const username = document.getElementById('username').value;
+        const displayName = displayNameInput.value;
+        await puter.kv.set('displayName', displayName);
         const tweetText = document.getElementById('tweet-text').value;
         const tweetStyle = tweetStyleSelect.value;
 
@@ -64,10 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
             tweetCard.classList.remove('realistic-style');
             tweetContent = `
                 <div class="tweet-header">
-                    <img class="profile-pic" src="gato.jpg" alt="Foto de perfil">
+                    <img class="profile-pic" src="${profileImageURL}" alt="Foto de perfil">
                     <div class="user-info">
                         <div class="display-name-group">
-                            <span class="display-name">Gatito Sentimental</span>
+                            <span class="display-name">${displayName}</span>
                             ${verificationIconImg}
                         </div>
                         <span class="username">@${username}</span>
@@ -94,10 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             tweetContent = `
                 <div class="tweet-header">
-                    <img class="profile-pic" src="gato.jpg" alt="Foto de perfil">
+                    <img class="profile-pic" src="${profileImageURL}" alt="Foto de perfil">
                     <div class="user-info">
                         <div class="display-name-group">
-                            <span class="display-name">Gatito Sentimental</span>
+                            <span class="display-name">${displayName}</span>
                             ${verificationIconImg}
                         </div>
                         <span class="username">@${username}</span>
@@ -133,13 +169,15 @@ document.addEventListener('DOMContentLoaded', () => {
         backToFormBtn.style.display = 'block';
     });
 
-    backToFormBtn.addEventListener('click', function() {
+    backToFormBtn.addEventListener('click', async function() {
         formContainer.style.display = 'block';
         tweetCard.style.display = 'none';
         backToFormBtn.style.display = 'none';
 
         tweetForm.reset();
+        displayNameInput.value = await puter.kv.get('displayName') || '';
         imageUpload.value = '';
+        profileImageUpload.value = '';
         optionalImageHTML = '';
         tweetCard.classList.remove('realistic-style'); // Asegura que se quite la clase de estilo realista
         realisticOptionsDiv.style.display = 'none'; // Oculta las opciones realistas al volver
