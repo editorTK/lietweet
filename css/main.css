@@ -1,0 +1,321 @@
+
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+}
+
+/* Temas */
+body.light-theme {
+    background-color: #ffffff;
+    color: #0f1419;
+}
+
+body.dark-theme {
+    background-color: #000000;
+    color: #e7e9ea;
+}
+
+.form-container, .tweet-card {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+body.dark-theme .form-container,
+body.dark-theme .tweet-card {
+    background: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .form-container h1,
+body.dark-theme .display-name,
+body.dark-theme .tweet-body p {
+    color: #e7e9ea;
+}
+
+body.dark-theme .username,
+body.dark-theme .tweet-info-stats {
+    color: #8899a6;
+}
+
+body.dark-theme form label {
+    color: #e7e9ea;
+}
+
+body.dark-theme form input,
+body.dark-theme form textarea,
+body.dark-theme form select {
+    background-color: #262626;
+    border: 1px solid #383838;
+    color: #e7e9ea;
+}
+
+body.dark-theme form input::placeholder,
+body.dark-theme form textarea::placeholder {
+    color: #8899a6;
+}
+
+/* Fin de Temas */
+
+.back-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #1DA1F2;
+    background-color: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.2s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    display: none;
+}
+
+body.dark-theme .back-btn {
+    background-color: #1a1a1a;
+    color: #1DA1F2;
+    border: 1px solid #383838;
+    box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+}
+
+.back-btn:hover {
+    background-color: #e8f5fe;
+}
+
+body.dark-theme .back-btn:hover {
+    background-color: #0c1822; /* Un azul muy oscuro para hover en tema oscuro */
+}
+
+.form-container {
+    padding: 25px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #1DA1F2; /* Usando el azul de X */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+form button[type="submit"]:hover {
+    background-color: #1a8cd8; /* Un azul un poco más oscuro */
+}
+
+.tweet-card {
+    padding: 15px;
+    width: 100%;
+    max-width: 500px;
+    display: none;
+}
+
+/* Estilos de Tweet Comunes */
+.tweet-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.display-name-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.display-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.verification-img {
+    width: 18px;
+    height: 18px;
+}
+
+.username {
+    color: #536471;
+    font-size: 15px;
+}
+
+.tweet-body {
+    margin-top: 8px;
+    padding-left: 62px; /* Alinea el texto con el de arriba */
+}
+
+.tweet-body p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.3;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.tweet-image {
+    margin-top: 12px;
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid #cfd9de;
+}
+
+body.dark-theme .tweet-image {
+    border: 1px solid #383838;
+}
+
+/* Estilos específicos para el modo "Realista" */
+.tweet-card.realistic-style {
+    border: 1px solid #cfd9de; /* Borde más pronunciado para realismo */
+    padding: 20px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+body.dark-theme .tweet-card.realistic-style {
+    border: 1px solid #383838;
+}
+
+.tweet-card.realistic-style .tweet-header {
+    margin-bottom: 10px;
+}
+
+.tweet-card.realistic-style .tweet-body {
+    padding-left: 0; /* No padding extra en modo realista */
+}
+
+.tweet-card.realistic-style .tweet-body p {
+    font-size: 17px; /* Fuente más pequeña para realismo */
+    line-height: 1.4;
+}
+
+.tweet-timestamp {
+    font-size: 15px;
+    color: #536471;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding-left: 62px; /* Alinea con el usuario */
+}
+
+body.dark-theme .tweet-timestamp {
+    color: #8899a6;
+}
+
+.tweet-info-stats {
+    display: flex;
+    gap: 25px;
+    font-size: 15px;
+    color: #536471;
+    border-top: 1px solid #eff3f4;
+    border-bottom: 1px solid #eff3f4;
+    padding: 12px 0;
+    margin-top: 15px;
+    padding-left: 62px; /* Alinea con el usuario */
+}
+
+body.dark-theme .tweet-info-stats {
+    border-color: #383838;
+    color: #8899a6;
+}
+
+.tweet-info-stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tweet-interactions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    font-size: 18px;
+    color: #536471;
+}
+
+body.dark-theme .tweet-interactions {
+    color: #8899a6;
+}
+
+.tweet-interactions .icon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.tweet-interactions .icon-wrapper:hover {
+    color: #1DA1F2;
+}
+
+/* Para los íconos de Font Awesome */
+.tweet-interactions .fa-comment,
+.tweet-interactions .fa-retweet,
+.tweet-interactions .fa-heart,
+.tweet-interactions .fa-chart-simple,
+.tweet-interactions .fa-bookmark,
+.tweet-interactions .fa-share-nodes {
+    font-size: 18px;
+}
