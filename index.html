@@ -15,8 +15,11 @@
     <div class="form-container" id="form-container">
         <h1>Crea tu Tweet</h1>
         <form id="tweet-form">
+            <label for="display-name">Nombre a mostrar:</label>
+            <input type="text" id="display-name" placeholder="Ej. Juan Pérez" required>
+
             <label for="username">Usuario (sin @):</label>
-            <input type="text" id="username" value="Gatito Sentimental" required>
+            <input type="text" id="username" placeholder="usuario" required>
             
             <label for="tweet-text">Texto del Tweet:</label>
             <textarea id="tweet-text" rows="4" required></textarea>
@@ -59,6 +62,6 @@
 
     <div class="tweet-card" id="tweet-card"></div>
 
-    <script src="main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
