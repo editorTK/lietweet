@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tweetText = document.getElementById('tweet-text').value;
         const tweetStyle = tweetStyleSelect.value;
 
-        const verificationIconImg = `<img src="inages/check-azul.png" class="verification-img" alt="Verificado">`;
+        const verificationIconImg = `<img src="images/check-azul.png" class="verification-img" alt="Verificado">`;
         
         let tweetContent = '';
 
