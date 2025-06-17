@@ -1,25 +1,16 @@
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     const formContainer = document.getElementById('form-container');
     const tweetForm = document.getElementById('tweet-form');
     const tweetCard = document.getElementById('tweet-card');
     const imageUpload = document.getElementById('optional-image-upload');
-    const profileImageUpload = document.getElementById('profile-image-upload');
     const backToFormBtn = document.getElementById('back-to-form-btn');
     const tweetStyleSelect = document.getElementById('tweet-style');
     const realisticOptionsDiv = document.getElementById('realistic-options');
     const themeSelector = document.getElementById('theme-selector');
 
     let optionalImageHTML = '';
-    let profileImageURL = 'gato.jpg';
 
-    if (puter && puter.auth.isSignedIn()) {
-        try {
-            const blob = await puter.fs.read('profile-pic');
-            profileImageURL = URL.createObjectURL(blob);
-        } catch (e) {}
-    }
-
-    // Manejar la carga de imágenes del tweet
+    // Manejar la carga de imágenes
     imageUpload.addEventListener('change', function() {
         if (this.files && this.files[0]) {
             const reader = new FileReader();
@@ -29,19 +20,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             reader.readAsDataURL(this.files[0]);
         } else {
             optionalImageHTML = '';
-        }
-    });
-
-    // Subir la foto de perfil a Puter
-    profileImageUpload.addEventListener('change', async function() {
-        if (this.files && this.files[0]) {
-            if (!puter.auth.isSignedIn()) {
-                await puter.auth.signIn();
-            }
-            const file = this.files[0];
-            await puter.fs.write('profile-pic', file);
-            const blob = await puter.fs.read('profile-pic');
-            profileImageURL = URL.createObjectURL(blob);
         }
     });
 
@@ -86,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             tweetCard.classList.remove('realistic-style');
             tweetContent = `
                 <div class="tweet-header">
-                    <img class="profile-pic" src="${profileImageURL}" alt="Foto de perfil">
+                    <img class="profile-pic" src="gato.jpg" alt="Foto de perfil">
                     <div class="user-info">
                         <div class="display-name-group">
                             <span class="display-name">Gatito Sentimental</span>
@@ -116,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             tweetContent = `
                 <div class="tweet-header">
-                    <img class="profile-pic" src="${profileImageURL}" alt="Foto de perfil">
+                    <img class="profile-pic" src="gato.jpg" alt="Foto de perfil">
                     <div class="user-info">
                         <div class="display-name-group">
                             <span class="display-name">Gatito Sentimental</span>
@@ -162,7 +140,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         tweetForm.reset();
         imageUpload.value = '';
-        profileImageUpload.value = '';
         optionalImageHTML = '';
         tweetCard.classList.remove('realistic-style'); // Asegura que se quite la clase de estilo realista
         realisticOptionsDiv.style.display = 'none'; // Oculta las opciones realistas al volver
